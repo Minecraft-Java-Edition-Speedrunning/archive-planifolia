@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "plugin": "dev.tildejustin.planifolia.PlanifoliaMixinPlugin",
   "mixins": [
+    "RenderSectionManagerMixin",
     "SodiumGameOptionPagesMixin",
     "SodiumGameOptions$GraphicsQualityMixin",
     "accessor.SodiumWorldRendererAccessor"
