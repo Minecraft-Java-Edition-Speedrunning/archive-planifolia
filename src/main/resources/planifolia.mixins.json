@@ -5,6 +5,7 @@
   "plugin": "dev.tildejustin.planifolia.PlanifoliaMixinPlugin",
   "mixins": [
     "BlockOcclusionCacheMixin",
+    "RenderSectionManagerMixin",
     "SodiumGameOptionPagesMixin",
     "SodiumGameOptions$GraphicsQualityMixin",
     "SodiumWorldRendererMixin",
