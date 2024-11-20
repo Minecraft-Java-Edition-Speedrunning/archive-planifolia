@@ -12,6 +12,7 @@
     "SodiumWorldRendererMixin",
     "VideoOptionsScreenMixin",
     "WorldRendererMixin",
+    "accessor.RenderPhaseAccessor",
     "accessor.SodiumWorldRendererAccessor",
     "universal.GameOptionsMixin",
     "universal.SliderWidgetMixin"
