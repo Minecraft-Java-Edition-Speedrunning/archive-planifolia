@@ -1,9 +1,9 @@
 package dev.tildejustin.planifolia.mixin;
 
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,14 +14,13 @@ public class SodiumWorldRendererMixin {
     @Final
     private MinecraftClient client;
 
-    // doesn't work after 0.5+
-    @Inject(method = "drawChunkLayer", at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/render/chunk/RenderSectionManager;renderLayer(Lme/jellysquid/mods/sodium/client/render/chunk/ChunkRenderMatrices;Lme/jellysquid/mods/sodium/client/render/chunk/passes/BlockRenderPass;DDD)V"), require = 0)
-    private void startProfiler(RenderLayer renderLayer, MatrixStack matrixStack, double x, double y, double z, CallbackInfo ci) {
+    @Inject(method = "drawChunkLayer", at = @At("HEAD"), remap = false)
+    private void startProfiler(RenderLayer renderLayer, ChunkRenderMatrices matrices, double x, double y, double z, CallbackInfo ci) {
         this.client.getProfiler().push("filterempty");
         this.client.getProfiler().swap(() -> "render_" + renderLayer);
     }
 
-    @Inject(method = "drawChunkLayer", at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/render/chunk/passes/BlockRenderPass;endDrawing()V"), require = 0)
+    @Inject(method = "drawChunkLayer", at = @At("TAIL"), remap = false)
     private void endProfiler(CallbackInfo ci) {
         this.client.getProfiler().pop();
     }

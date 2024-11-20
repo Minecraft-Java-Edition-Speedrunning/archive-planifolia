@@ -18,7 +18,12 @@
     "planifolia.mixins.json"
   ],
   "suggests": {
-    "sodium": ">=0.4"
+    "sodium": ">=0.6"
   },
-  "accessWidener": "planifolia.accesswidener"
+  "accessWidener": "planifolia.accesswidener",
+  "custom": {
+    "sodium:options": {
+      "mixin.features.gui.hooks.settings": false
+    }
+  }
 }
