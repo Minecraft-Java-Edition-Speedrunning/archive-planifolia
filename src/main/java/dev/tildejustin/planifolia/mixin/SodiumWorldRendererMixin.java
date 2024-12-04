@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SodiumWorldRenderer.class)
 public class SodiumWorldRendererMixin {
+    @SuppressWarnings("resource")
     @Inject(method = "drawChunkLayer", at = @At("HEAD"), remap = false)
     private void startProfiler(RenderLayer renderLayer, ChunkRenderMatrices matrices, double x, double y, double z, CallbackInfo ci, @Share("scopedProfiler") LocalRef<ScopedProfiler> scopedProfiler) {
         scopedProfiler.set(Profilers.get().scoped(() -> "render_" + ((RenderPhaseAccessor) renderLayer).getName()));
