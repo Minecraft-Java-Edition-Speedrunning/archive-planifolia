@@ -3,7 +3,7 @@
   "id": "planifolia",
   "version": "${version}",
   "name": "Planifolia",
-  "description": "Vanilla VideoOptionsScreen for sodium",
+  "description": "Vanilla VideoOptionsScreen for Sodium and gamma 5 for 1.19+",
   "authors": [
     "tildejustin"
   ],
