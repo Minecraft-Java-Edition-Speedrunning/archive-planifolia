@@ -8,11 +8,7 @@ import org.spongepowered.asm.mixin.injection.*;
 
 @Mixin(value = SodiumGameOptionPages.class, remap = false)
 public abstract class SodiumGameOptionPagesMixin {
-    @ModifyArg(
-            method = "lambda$general$6",
-            at = @At(value = "INVOKE", target = "Lme/jellysquid/mods/sodium/client/gui/options/control/SliderControl;<init>(Lme/jellysquid/mods/sodium/client/gui/options/Option;IIILme/jellysquid/mods/sodium/client/gui/options/control/ControlValueFormatter;)V"),
-            index = 2
-    )
+    @ModifyConstant(method = {"lambda$general$3", "lambda$general$6"}, constant = @Constant(intValue = 100), require = 1, allow = 1)
     private static int modifyGammaSliderMaximum(int original) {
         return MinecraftClient.getInstance().world == null ? 500 : original;
     }
