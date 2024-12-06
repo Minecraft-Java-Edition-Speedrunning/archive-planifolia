@@ -8,6 +8,7 @@
     "DebugHudMixin",
     "OptionsScreenMixin",
     "RenderSectionManagerMixin",
+    "ResourcePackManagerMixin",
     "SodiumGameOptionPagesMixin",
     "SodiumGameOptions$GraphicsQualityMixin",
     "SodiumWorldRendererMixin",
