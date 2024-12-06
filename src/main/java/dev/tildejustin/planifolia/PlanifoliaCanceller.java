@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import java.util.*;
 
 public class PlanifoliaCanceller implements MixinCanceller {
-
     @Override
     public boolean shouldCancel(List<String> targetClassNames, String mixinClassName) {
         return Arrays.asList(

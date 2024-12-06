@@ -1,12 +1,11 @@
 package dev.tildejustin.planifolia.mixin.accessor;
 
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Pseudo
-@Mixin(SodiumWorldRenderer.class)
+@Mixin(value = SodiumWorldRenderer.class, remap = false)
 public interface SodiumWorldRendererAccessor {
-    @Accessor(value = "useEntityCulling", remap = false)
+    @Accessor(value = "useEntityCulling")
     boolean getUseEntityCulling();
 }
