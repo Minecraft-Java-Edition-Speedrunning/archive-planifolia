@@ -1,24 +1,38 @@
 package dev.tildejustin.planifolia.mixin;
 
 import com.bawnorton.mixinsquared.TargetHandler;
-import com.google.common.collect.Lists;
-import net.caffeinemc.mods.sodium.client.SodiumClientMod;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.hud.DebugHud;
-import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.*;
 
-import java.util.*;
+import java.util.List;
 
 @Mixin(value = DebugHud.class, priority = 1050)
 public abstract class DebugHudMixin {
-    @Dynamic
-    @Invoker(value = "getVersionColor", remap = false)
-    public static Formatting callGetVersionColor() {
-        throw new RuntimeException();
+    @Inject(method = "getRightText", at = @At(value = "RETURN"))
+    private void minimizeSodiumText(CallbackInfoReturnable<List<String>> cir) {
+        List<String> list = cir.getReturnValue();
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i).startsWith("Allocated:")) {
+                list.remove(i + 1);
+            }
+            if (!list.get(i).contains("Sodium Renderer")) {
+                continue;
+            }
+            list.remove(--i);
+            list.add("");
+            String version = list.remove(i);
+            list.add(version);
+            if (version.equals("Sodium Renderer")) {
+                list.add(list.remove(i));
+            }
+            while (list.size() > i && !list.get(i).isEmpty() && !list.get(i).startsWith("Resetting")) {
+                list.remove(i);
+            }
+            break;
+        }
     }
 
     @Dynamic
@@ -28,19 +42,5 @@ public abstract class DebugHudMixin {
         if (!FabricLoader.getInstance().isModLoaded("fabric")) {
             ci.cancel();
         }
-    }
-
-    @Dynamic
-    @TargetHandler(mixin = "net.caffeinemc.mods.sodium.mixin.features.gui.hooks.debug.DebugScreenOverlayMixin", name = "redirectRightTextEarly")
-    @Inject(method = "@MixinSquared:Handler", at = @At("HEAD"), cancellable = true)
-    private void cancelSodiumTextAddition(Object[] elements, CallbackInfoReturnable<ArrayList<Object>> cir) {
-        cir.setReturnValue(Lists.newArrayList(elements));
-    }
-
-    @Inject(method = "getRightText", at = @At(value = "RETURN"))
-    private void redoSodiumTextAddition(CallbackInfoReturnable<List<String>> cir) {
-        List<String> list = cir.getReturnValue();
-        list.add("");
-        list.add(String.format("%sSodium Renderer (%s)", callGetVersionColor(), SodiumClientMod.getVersion()));
     }
 }
