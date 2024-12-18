@@ -24,10 +24,10 @@ public abstract class DebugHudMixin {
             list.remove(--i);
             list.add("");
             String version = list.remove(i);
-            list.add(version);
             if (version.equals("Sodium Renderer")) {
-                list.add(list.remove(i));
+                version += " " + list.remove(i);
             }
+            list.add(version.replaceAll("§(?i)[0-9a-fk-or]", ""));
             while (list.size() > i && !list.get(i).isEmpty() && !list.get(i).startsWith("Resetting")) {
                 list.remove(i);
             }
